@@ -1,0 +1,128 @@
+---
+title: "Performance at Scale: Mastering Web Vitals"
+excerpt: "Core Web Vitals directly impact your search ranking and your users' experience. Here's a practical, engineering-focused guide to measuring and improving them."
+coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80"
+publishedAt: "2024-06-01T10:00:00Z"
+featured: false
+category: "Technology"
+tags: ["Performance", "Web Vitals", "LCP", "CLS", "INP", "Optimization"]
+author:
+  name: "Sarah Chen"
+  avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80"
+  bio: "Senior engineer at the intersection of AI and developer tooling. Previously at Google and Stripe."
+  role: "Senior Engineer"
+  twitter: "sarahchen_dev"
+  github: "sarahchen"
+---
+
+Google's Core Web Vitals have become the de facto standard for measuring real-world user experience. Get them right and you'll rank better, convert better, and build products people actually enjoy using. Get them wrong and you're fighting an uphill battle on every front.
+
+## The Three Metrics That Matter
+
+### LCP — Largest Contentful Paint (target: < 2.5s)
+LCP measures when the largest visible element (usually a hero image or heading) finishes loading. It's the closest proxy we have for "when does the page feel usable?"
+
+The top culprits:
+- Unoptimized hero images
+- Render-blocking resources
+- Slow server response times (TTFB)
+- Client-side rendering when SSR/SSG would suffice
+
+### CLS — Cumulative Layout Shift (target: < 0.1)
+CLS measures how much the page jumps around while loading. Nothing is more frustrating than clicking a link and having the button move just as you tap it.
+
+The top culprits:
+- Images without explicit `width` and `height`
+- Ads or embeds that inject without reserved space
+- Web fonts causing text reflow (FOIT/FOUT)
+- Dynamically injected content above existing content
+
+### INP — Interaction to Next Paint (target: < 200ms)
+INP (which replaced FID in March 2024) measures responsiveness. It tracks the longest interaction delay across the entire page lifetime.
+
+The top culprits:
+- Long JavaScript tasks blocking the main thread
+- Unoptimized event handlers
+- Third-party scripts running during user interaction
+
+## Fixing LCP: A Practical Checklist
+
+**Priority 1: Your hero image.** Add `loading="eager"` and `fetchpriority="high"` to the LCP image. Use Next.js `<Image>` with `priority` prop. Serve WebP/AVIF. Use a CDN.
+
+```tsx
+// Next.js — LCP image correctly configured
+<Image
+  src="/hero.webp"
+  alt="Hero"
+  width={1200}
+  height={600}
+  priority           // preloads the image
+  quality={85}
+/>
+```
+
+**Priority 2: Eliminate render-blocking resources.** Every stylesheet and synchronous script in `<head>` delays LCP. Defer non-critical scripts. Inline critical CSS.
+
+**Priority 3: Improve TTFB.** If your server takes 800ms to respond, LCP can never be fast. Use SSG where possible. Add caching headers. Consider edge rendering.
+
+## Fixing CLS: Reserve Space
+
+The fix for most CLS issues is simple: **reserve space for content before it loads**.
+
+```css
+/* Aspect ratio box — prevents layout shift for images */
+.image-wrapper {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* Font loading — prevent reflow */
+```
+
+```html
+<link rel="preload" href="/fonts/inter.woff2" as="font" crossorigin>
+```
+
+For fonts, `font-display: optional` eliminates font-induced CLS at the cost of sometimes showing the fallback font. For brand fonts, `font-display: swap` is a reasonable trade-off.
+
+## Fixing INP: Unblock the Main Thread
+
+Long tasks (> 50ms) are the enemy of good INP. The browser can't respond to user input while executing a long task.
+
+```ts
+// Break up long work with scheduler.yield()
+async function processLargeDataset(items: Item[]) {
+  for (let i = 0; i < items.length; i++) {
+    processItem(items[i]);
+    
+    // Yield to the browser every 50 items
+    if (i % 50 === 0) {
+      await scheduler.yield();
+    }
+  }
+}
+```
+
+Also: audit your third-party scripts. Tag managers, analytics, chat widgets, and A/B testing tools are frequent INP killers. Load them with `async` or `defer`, and consider loading them after the first user interaction.
+
+## Measuring in the Real World
+
+Lab tools (Lighthouse, WebPageTest) measure synthetic performance. Field data from real users often tells a very different story.
+
+Use the Chrome User Experience Report (CrUX) via PageSpeed Insights to see your actual field data. Set up Real User Monitoring (RUM) with tools like Vercel Analytics, Datadog RUM, or the Web Vitals JS library.
+
+```ts
+import { onLCP, onCLS, onINP } from 'web-vitals';
+
+onLCP(metric  => sendToAnalytics('LCP',  metric));
+onCLS(metric  => sendToAnalytics('CLS',  metric));
+onINP(metric  => sendToAnalytics('INP',  metric));
+```
+
+## The Performance Culture Shift
+
+The highest-performing teams don't run performance audits at the end of a project — they treat performance as a feature with the same priority as functionality and design.
+
+Set performance budgets. Run Lighthouse in CI. Make performance regressions visible. The teams that do this consistently ship faster products and spend less time firefighting slowdowns in production.
+
+Performance isn't an optimization pass. It's a discipline.

@@ -1,0 +1,104 @@
+---
+title: "Building a Design System From Scratch"
+excerpt: "Design systems are one of the highest-leverage investments an engineering team can make. Here's how to build one that actually gets adopted and maintained."
+coverImage: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1200&auto=format&fit=crop&q=80"
+publishedAt: "2024-06-20T10:00:00Z"
+featured: true
+category: "Design"
+tags: ["Design Systems", "Component Library", "UI", "Engineering"]
+author:
+  name: "Priya Patel"
+  avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80"
+  bio: "UX designer focused on inclusive design systems. Speaker, writer, and advocate for accessible web experiences."
+  role: "UX Designer"
+  twitter: "priyauxdesign"
+  github: "priyapatel"
+---
+
+A design system is not a component library. That distinction matters, and it's why so many "design systems" die in a shared Figma file or an npm package nobody uses.
+
+A real design system is a **shared language** — a set of decisions, principles, and tools that help a team move faster while building a more coherent product. The component library is just one artifact of that language.
+
+## Why Most Design Systems Fail
+
+Before building anything, it's worth understanding the failure modes:
+
+**Too abstract, too early.** Teams spend months building the perfect Button component with 47 variants before any product team has asked for 40 of them. Build for the problems you have, not the problems you imagine.
+
+**Designer-only or engineer-only.** Design systems that live entirely in Figma get out of sync with production. Systems that live entirely in code get no design input. The successful ones have genuine co-ownership.
+
+**No governance.** Who approves new components? Who decides when to deprecate one? Without answers, the system grows into chaos or atrophies from neglect.
+
+**No documentation.** A component with no documentation is a component nobody will use correctly.
+
+## Starting Right: The Token Foundation
+
+Don't start with components. Start with **design tokens** — the named values that encode your design decisions.
+
+```ts
+// tokens.ts
+export const tokens = {
+  color: {
+    brand: {
+      primary:   '#6172F3',
+      secondary: '#444CE7',
+    },
+    neutral: {
+      50:  '#FAFAFA',
+      900: '#111827',
+    },
+    semantic: {
+      success: '#17B26A',
+      warning: '#F79009',
+      error:   '#F04438',
+    },
+  },
+  spacing: {
+    xs:  '4px',
+    sm:  '8px',
+    md:  '16px',
+    lg:  '24px',
+    xl:  '32px',
+    '2xl': '48px',
+  },
+  typography: {
+    fontFamily: {
+      sans:  "'Inter', system-ui, sans-serif",
+      serif: "'Playfair Display', Georgia, serif",
+    },
+    fontSize: {
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+    },
+  },
+};
+```
+
+Tokens are the foundation everything else is built on. When you change a token, it ripples correctly through the entire system.
+
+## The Component Anatomy
+
+Every component in a mature design system has three layers:
+
+1. **Primitive** — The unstyled, accessible base (Radix UI, Headless UI)
+2. **Styled** — The primitive with your tokens applied
+3. **Pattern** — Composed components for specific use cases
+
+Most teams jump straight to layer 2 and wonder why their system is brittle. The primitives layer is what gives you accessibility and keyboard navigation for free.
+
+## Versioning and Communication
+
+Treat your design system like a public API. Use semantic versioning. Write changelogs. Create migration guides for breaking changes.
+
+Nothing kills adoption faster than updating a system package and having it silently break your app in production.
+
+## The One Rule That Makes Systems Work
+
+**Don't build anything the product teams don't currently need.** Build the minimum that solves real problems, document it thoroughly, and iterate based on feedback.
+
+The teams who ship great design systems aren't the ones who planned the most — they're the ones who listened the most.
+
+Start small, be consistent, and let usage drive evolution. The rest follows naturally.

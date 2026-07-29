@@ -1,0 +1,99 @@
+---
+title: "Mastering React Server Components"
+excerpt: "React Server Components represent the biggest paradigm shift in React since hooks. Learn how they work, when to use them, and how to avoid the common pitfalls."
+coverImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&auto=format&fit=crop&q=80"
+publishedAt: "2024-07-08T10:00:00Z"
+featured: true
+category: "Engineering"
+tags: ["React", "Next.js", "Server Components", "Web Development"]
+author:
+  name: "Marcus Rivera"
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+  bio: "Frontend architect specializing in React and performance engineering. Open source contributor."
+  role: "Frontend Architect"
+  twitter: "marcusrivera"
+  github: "marcusrivera"
+---
+
+React Server Components (RSC) arrived with Next.js 13's App Router and fundamentally changed how we think about the boundary between server and client. A year into widespread adoption, the dust has settled enough to assess what actually matters.
+
+## What Server Components Actually Are
+
+Server Components are React components that render *exclusively on the server*. They never ship to the browser. They have direct access to your database, file system, and environment variables — but they cannot use state, effects, or browser APIs.
+
+```tsx
+// This runs only on the server — no JavaScript sent to client
+async function PostList() {
+  const posts = await db.posts.findMany({ orderBy: { createdAt: 'desc' } });
+
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+The component above fetches directly from a database. No API layer. No `useEffect`. No loading spinner. The HTML arrives fully rendered.
+
+## The Mental Model Shift
+
+The critical insight is that RSC doesn't replace Client Components — it complements them. Think of your application as a tree where most of the structure and data-fetching happens on the server, and interactivity is sprinkled in at the leaves.
+
+### Server Components are good for:
+- Data fetching (databases, CMS, APIs)
+- Large dependencies (markdown parsers, date libraries) — they never ship to the browser
+- Static content that doesn't need interactivity
+
+### Client Components are still needed for:
+- Event handlers (`onClick`, `onChange`)
+- State (`useState`, `useReducer`)
+- Browser APIs (`localStorage`, `window`)
+- Lifecycle effects (`useEffect`)
+
+## Common Pitfalls
+
+### Pitfall 1: The "use client" Cascade
+
+Adding `"use client"` to a component makes it and *all its children* client components. Many developers add it too high in the tree and inadvertently send unnecessary code to the browser.
+
+**Solution:** Push `"use client"` as low in the tree as possible. Extract interactive islands into small, focused client components.
+
+### Pitfall 2: Prop Serialization
+
+You cannot pass non-serializable props (functions, class instances, Dates) from Server to Client Components. Props must be JSON-serializable.
+
+### Pitfall 3: Async in the Wrong Place
+
+Server Components can be `async` — Client Components cannot. Mixing these up generates confusing errors.
+
+## Data Fetching Patterns
+
+RSC enables a pattern called **parallel data fetching** that eliminates request waterfalls:
+
+```tsx
+async function DashboardPage() {
+  // These fire simultaneously — not sequentially
+  const [user, posts, analytics] = await Promise.all([
+    getUser(),
+    getPosts(),
+    getAnalytics(),
+  ]);
+
+  return (
+    <Dashboard user={user} posts={posts} analytics={analytics} />
+  );
+}
+```
+
+This was painful to do correctly with `useEffect` — with RSC, it's the natural default.
+
+## Should You Use the App Router Today?
+
+Yes, for new projects. The mental model takes a week to internalize, but once it clicks, you ship faster, your bundles are smaller, and your data fetching is simpler. The trade-off is a steeper initial learning curve and a younger ecosystem.
+
+For existing Pages Router projects, there's no urgency to migrate. The Pages Router isn't going anywhere.
+
+React Server Components are the future of React. The teams that understand them deeply will build faster, leaner applications — and have a real competitive advantage.

@@ -1,0 +1,121 @@
+---
+title: "The Pragmatic Guide to TypeScript"
+excerpt: "TypeScript can be a joy or a constant battle depending on how you approach it. Here's a practical guide to using TypeScript in a way that actually helps your team ship faster."
+coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80"
+publishedAt: "2024-06-10T09:00:00Z"
+featured: false
+category: "Engineering"
+tags: ["TypeScript", "JavaScript", "Best Practices", "Developer Experience"]
+author:
+  name: "Marcus Rivera"
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+  bio: "Frontend architect specializing in React and performance engineering. Open source contributor."
+  role: "Frontend Architect"
+  twitter: "marcusrivera"
+  github: "marcusrivera"
+---
+
+TypeScript adoption has become near-universal in professional JavaScript development. But there's a massive spectrum between "technically TypeScript" and "using TypeScript well."
+
+Teams that use TypeScript well ship faster, have fewer runtime bugs, and have codebases that are genuinely easier to navigate. Teams that use TypeScript poorly have codebases littered with `any`, constant type fights, and the worst of both worlds.
+
+Here's how to land on the right side of that spectrum.
+
+## The Core Mental Model
+
+TypeScript's type system is a **proof system**. When you write a type annotation, you're making a claim about what values a variable can hold. The compiler verifies your claims are consistent.
+
+This means the goal isn't to *satisfy the compiler* — it's to *correctly model your domain*. When you reach for `any` to silence an error, you're not solving a TypeScript problem, you're hiding a modeling problem.
+
+## Use `unknown` Instead of `any`
+
+`any` opts out of the type system entirely. `unknown` says "I don't know the type yet, but I'll be forced to check before I use it."
+
+```ts
+// Dangerous — no checking required
+function parseData(input: any) {
+  return input.user.name; // No error, even if input is null
+}
+
+// Safe — type narrowing required
+function parseData(input: unknown) {
+  if (
+    typeof input === 'object' &&
+    input !== null &&
+    'user' in input &&
+    typeof (input as any).user?.name === 'string'
+  ) {
+    return (input as { user: { name: string } }).user.name;
+  }
+  throw new Error('Invalid input shape');
+}
+```
+
+## Prefer Type Aliases for Domain Concepts
+
+Named types document intent. They make function signatures readable and refactoring safe.
+
+```ts
+// Hard to read, easy to mix up
+function createOrder(userId: string, productId: string, quantity: number): string { ... }
+
+// Intent is clear, UserId and ProductId can't be accidentally swapped
+type UserId    = string & { readonly brand: 'UserId' };
+type ProductId = string & { readonly brand: 'ProductId' };
+type OrderId   = string & { readonly brand: 'OrderId' };
+
+function createOrder(userId: UserId, productId: ProductId, quantity: number): OrderId { ... }
+```
+
+The branded type pattern catches entire classes of bugs at compile time.
+
+## Use Discriminated Unions for State
+
+One of TypeScript's most powerful features is discriminated unions for representing state that evolves over time:
+
+```ts
+type RequestState<T> =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; error: string };
+```
+
+Now when you switch on `state.status`, TypeScript knows exactly which fields are available in each branch. No more defensive `data && data.user` checks.
+
+## Strict Mode is Non-Negotiable
+
+Enable `"strict": true` in `tsconfig.json` from day one. Retrofitting it onto an existing codebase is painful — but disabling it on a new project means you're not getting TypeScript's most valuable guarantees.
+
+Key flags `strict` enables:
+- `strictNullChecks` — `null` and `undefined` are distinct from other types
+- `noImplicitAny` — you must annotate when TypeScript can't infer
+- `strictFunctionTypes` — function parameters are checked covariantly
+
+## The `satisfies` Operator
+
+Introduced in TypeScript 4.9, `satisfies` is underused:
+
+```ts
+const config = {
+  theme: 'dark',
+  language: 'en',
+  features: ['analytics', 'notifications'],
+} satisfies Partial<AppConfig>;
+
+// config.theme is 'dark' (literal type preserved)
+// Not AppConfig['theme'] which might be too broad
+```
+
+It validates your object against a type while preserving the inferred literal types — giving you the best of both validation and inference.
+
+## When to Fight TypeScript and When to Give In
+
+Sometimes TypeScript is wrong about your code. This usually means one of three things:
+1. Your types are imprecise — improve the model
+2. TypeScript's inference is limited in this case — use an explicit annotation
+3. You genuinely have a dynamic escape hatch — use `as`, not `any`, with a comment explaining why
+
+The key is never silencing TypeScript without understanding why it's complaining. The complaints are almost always pointing at a real issue.
+
+TypeScript isn't magic. It's a tool for thinking more rigorously about your code. When you use it with that intent, it pays dividends for the life of the project.

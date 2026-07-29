@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-zinc-200 dark:border-zinc-800;
+  }
+
+  body {
+    @apply bg-white text-zinc-800 dark:bg-zinc-950 dark:text-zinc-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900 dark:bg-brand-800 dark:text-brand-100;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { @apply bg-zinc-100 dark:bg-zinc-900; }
+  ::-webkit-scrollbar-thumb  { @apply bg-zinc-300 dark:bg-zinc-700 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-zinc-400 dark:bg-zinc-600; }
+}
+
+@layer components {
+  .container-blog {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-prose {
+    @apply max-w-3xl mx-auto px-4 sm:px-6;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-600 to-brand-400 bg-clip-text text-transparent;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-950;
+  }
+
+  /* Reading progress bar */
+  .progress-bar {
+    @apply fixed top-0 left-0 h-0.5 bg-gradient-to-r from-brand-500 to-brand-300 z-50 transition-all duration-100;
+  }
+}
+
+/* Prose overrides for MDX */
+.prose pre {
+  @apply !bg-zinc-900 dark:!bg-zinc-800 rounded-xl border border-zinc-700/50;
+}
+
+.prose code:not(pre code) {
+  @apply bg-zinc-100 dark:bg-zinc-800 text-brand-600 dark:text-brand-400 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-brand-400 bg-brand-50/50 dark:bg-brand-950/20 rounded-r-lg pl-5 py-1 not-italic;
+}
+
+.prose blockquote p {
+  @apply text-zinc-600 dark:text-zinc-400;
+}
+
+.prose img {
+  @apply rounded-xl shadow-md;
+}

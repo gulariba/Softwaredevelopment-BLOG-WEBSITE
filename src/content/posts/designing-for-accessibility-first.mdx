@@ -1,0 +1,84 @@
+---
+title: "Designing for Accessibility First"
+excerpt: "Accessibility isn't a checklist you run at the end of a project. It's an approach that, when baked in from the start, makes your product better for everyone."
+coverImage: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1200&auto=format&fit=crop&q=80"
+publishedAt: "2024-07-01T08:00:00Z"
+featured: false
+category: "Design"
+tags: ["Accessibility", "UX", "Design", "WCAG", "Inclusive Design"]
+author:
+  name: "Priya Patel"
+  avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80"
+  bio: "UX designer focused on inclusive design systems. Speaker, writer, and advocate for accessible web experiences."
+  role: "UX Designer"
+  twitter: "priyauxdesign"
+  github: "priyapatel"
+---
+
+Over a billion people worldwide live with some form of disability. When we build inaccessible products, we're not just failing a compliance audit — we're actively excluding a significant portion of our potential users.
+
+But here's the more compelling argument: **accessible design is better design**. The constraints that make a product work for people with disabilities almost always make it work better for everyone.
+
+## The Business Case
+
+Accessibility is often framed as a legal requirement or a moral obligation. Both are true. But the business case is equally strong:
+
+- The global disability market controls over $13 trillion in disposable income
+- Accessible sites perform better in search engines — screen-reader-friendly markup is also SEO-friendly markup
+- Captions benefit not just deaf users but anyone watching video in a noisy environment
+- High contrast modes help users in bright sunlight, not just those with low vision
+
+When Microsoft redesigned Xbox controllers for accessibility, the adaptive controller became one of their most praised products — and opened up the gaming market to millions of new customers.
+
+## The Four Principles (POUR)
+
+WCAG 2.1 organizes accessibility requirements around four principles. Every requirement flows from one of these:
+
+### Perceivable
+Information must be presentable in ways users can perceive. This means:
+- Images have meaningful `alt` text
+- Videos have captions and transcripts
+- Color is never the *only* way to convey information
+- Text has sufficient contrast against its background
+
+### Operable
+Users must be able to operate the interface. This means:
+- All functionality is available via keyboard
+- No content flashes more than three times per second (seizure risk)
+- Users have enough time to read and interact with content
+- Navigation is logical and consistent
+
+### Understandable
+Information and UI must be understandable. This means:
+- Language is declared in HTML (`lang` attribute)
+- Error messages are specific and helpful
+- Labels describe their form fields accurately
+- Navigation behaves predictably
+
+### Robust
+Content must be robust enough to work with assistive technologies. This means:
+- Valid, semantic HTML
+- ARIA attributes used correctly (or not at all — misused ARIA is worse than none)
+- Name, role, and value exposed for all UI components
+
+## Practical Wins You Can Ship Today
+
+You don't need to overhaul your entire codebase. Start here:
+
+**1. Audit your color contrast.** Use the browser DevTools accessibility panel or tools like Colour Contrast Analyser. Aim for a 4.5:1 ratio for body text, 3:1 for large text.
+
+**2. Add `alt` text that means something.** "image.jpg" is not alt text. Describe what the image conveys, not what it depicts. A chart showing revenue growth should say "Bar chart showing 40% revenue growth from Q1 to Q4 2023" — not "chart."
+
+**3. Test keyboard navigation.** Open your site. Put your mouse away. Can you reach every interactive element with Tab? Can you activate it with Enter or Space? Can you see what's focused?
+
+**4. Use semantic HTML.** A `<button>` is better than a `<div onClick>`. A `<nav>` is better than a `<div class="nav">`. Semantic HTML gives assistive technologies the context they need for free.
+
+**5. Don't suppress focus styles.** `outline: none` without a replacement is the single most common accessibility mistake. If the default focus ring is ugly, design a better one — don't remove it.
+
+## The Shift in Mindset
+
+Accessibility-first means considering the full spectrum of human diversity before you open your design tool, not after you've shipped. It means asking "how does a keyboard user complete this flow?" at the same time you ask "how does a mouse user complete this flow?"
+
+The teams that do this consistently don't just check compliance boxes — they build products that are genuinely easier to use, for everyone.
+
+That's not a constraint. That's craftsmanship.
