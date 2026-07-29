@@ -34,11 +34,11 @@ export function Footer() {
                 <PenLine className="w-4 h-4 text-white" />
               </div>
               <span className="font-serif font-bold text-xl text-zinc-900 dark:text-white">
-                HRM<span className="text-brand-600">Blog</span>
+                Dev<span className="text-brand-600">Blog</span>
               </span>
             </Link>
             <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed">
-              In-depth articles on engineering, design, and technology — written by practitioners for practitioners.
+              In-depth articles on software development, engineering, and technology — written by practitioners for practitioners.
             </p>
             <div className="flex items-center gap-3 mt-5">
               {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
@@ -80,7 +80,7 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-zinc-400 dark:text-zinc-500">
-            © {year} HRM Blog. All rights reserved.
+            © {year} DevBlog. All rights reserved.
           </p>
           <p className="text-xs text-zinc-400 dark:text-zinc-500">
             Built with Next.js & Tailwind CSS

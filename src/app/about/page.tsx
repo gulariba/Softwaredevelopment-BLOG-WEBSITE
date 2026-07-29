@@ -5,7 +5,7 @@ import { ArrowRight, Code2, Palette, Cpu, Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about HRM Blog — our mission, our team, and what we write about.",
+  description: "Learn about DevBlog — our mission, our team, and what we write about.",
 };
 
 const TEAM = [
@@ -50,7 +50,7 @@ export default function AboutPage() {
             <span className="gradient-text">shared openly.</span>
           </h1>
           <p className="text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8 max-w-2xl">
-            HRM Blog is a publication run by a small team of engineers and designers who believe the best way to level up the industry is to share what we learn — in depth, for free.
+            DevBlog is a publication run by a small team of engineers and designers who believe the best way to level up the industry is to share what we learn — in depth, for free.
           </p>
           <Link
             href="/blog"

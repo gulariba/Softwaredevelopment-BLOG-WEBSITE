@@ -4,7 +4,7 @@ import { Mail, Twitter, Github, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with the HRM Blog team. We'd love to hear from you.",
+  description: "Get in touch with the DevBlog team. We'd love to hear from you.",
 };
 
 const CONTACT_OPTIONS = [
@@ -12,23 +12,23 @@ const CONTACT_OPTIONS = [
     icon:        Mail,
     title:       "Email us",
     description: "For partnerships, collaborations, or any general enquiry.",
-    action:      "hello@hrmblog.com",
-    href:        "mailto:hello@hrmblog.com",
+    action:      "hello@devblog.dev",
+    href:        "mailto:hello@devblog.dev",
     color:       "text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/30",
   },
   {
     icon:        Twitter,
     title:       "Tweet at us",
     description: "We're active on Twitter — fastest way to get a response.",
-    action:      "@hrmblog",
-    href:        "https://twitter.com/hrmblog",
+    action:      "@devblog_dev",
+    href:        "https://twitter.com/devblog_dev",
     color:       "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/30",
   },
   {
     icon:        Github,
     title:       "Open an issue",
     description: "Found a bug or want to suggest an improvement to the site?",
-    action:      "github.com/hrmblog",
+    action:      "github.com/gulariba",
     href:        "https://github.com",
     color:       "text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800",
   },

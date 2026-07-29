@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = params.category.charAt(0).toUpperCase() + params.category.slice(1);
   return {
     title: `${name} Articles`,
-    description: `Browse all ${name} articles on HRM Blog.`,
+    description: `Browse all ${name} articles on DevBlog.`,
   };
 }
 

@@ -5,29 +5,29 @@ import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hrm-blog.vercel.app"),
+  metadataBase: new URL("https://softwaredevelopment-blog-website.vercel.app"),
   title: {
-    default: "HRM Blog — Engineering, Design & Technology",
-    template: "%s | HRM Blog",
+    default: "DevBlog — Software Development, Engineering & Technology",
+    template: "%s | DevBlog",
   },
   description:
     "In-depth articles on software engineering, design systems, AI, and modern web development. Written by practitioners for practitioners.",
   keywords: ["engineering", "design", "AI", "web development", "React", "TypeScript"],
-  authors: [{ name: "HRM Blog Team" }],
+  authors: [{ name: "DevBlog Team" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://hrm-blog.vercel.app",
-    siteName: "HRM Blog",
-    title: "HRM Blog — Engineering, Design & Technology",
+    url: "https://softwaredevelopment-blog-website.vercel.app",
+    siteName: "DevBlog",
+    title: "DevBlog — Software Development, Engineering & Technology",
     description:
       "In-depth articles on software engineering, design systems, AI, and modern web development.",
-    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "HRM Blog" }],
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "DevBlog" }],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@hrmblog",
-    creator: "@hrmblog",
+    site: "@devblog",
+    creator: "@devblog",
   },
   robots: { index: true, follow: true },
 };

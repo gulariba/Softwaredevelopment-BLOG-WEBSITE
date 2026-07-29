@@ -5,7 +5,7 @@ import { getAllCategories, getAllPostsMeta } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Categories",
-  description: "Browse all article categories on HRM Blog.",
+  description: "Browse all article categories on DevBlog.",
 };
 
 const CATEGORY_META: Record<string, { icon: React.ElementType; description: string; color: string; bg: string }> = {

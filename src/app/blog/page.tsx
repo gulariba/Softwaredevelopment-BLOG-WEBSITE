@@ -5,7 +5,7 @@ import { BlogListing } from "@/components/blog/BlogListing";
 export const metadata: Metadata = {
   title: "All Articles",
   description:
-    "Browse all articles on engineering, design, and technology from the HRM Blog team.",
+    "Browse all articles on software development, engineering, and technology from the DevBlog team.",
 };
 
 export default function BlogPage() {

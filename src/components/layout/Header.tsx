@@ -44,13 +44,13 @@ export function Header() {
           <Link
             href="/"
             className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg"
-            aria-label="HRM Blog home"
+            aria-label="DevBlog home"
           >
             <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center group-hover:bg-brand-700 transition-colors">
               <PenLine className="w-4 h-4 text-white" />
             </div>
             <span className="font-serif font-bold text-xl text-zinc-900 dark:text-white">
-              HRM<span className="text-brand-600">Blog</span>
+              Dev<span className="text-brand-600">Blog</span>
             </span>
           </Link>
 

@@ -9,7 +9,7 @@ import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
 import { BackToTop } from "@/components/ui/BackToTop";
 
 export const metadata: Metadata = {
-  title: "HRM Blog — Engineering, Design & Technology",
+  title: "DevBlog — Software Development, Engineering & Technology",
   description:
     "In-depth articles on software engineering, design systems, AI, and modern web development. Written by practitioners for practitioners.",
 };
